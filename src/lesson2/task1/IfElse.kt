@@ -77,6 +77,7 @@ fun ageDescription(age: Int): String {
     }
 }
 
+
 /**
  * Простая (2 балла)
  *
@@ -140,7 +141,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((b < c) || (d < a)) return -1
+    if (b < c || d < a) return -1
     return kotlin.math.min(b, d) - max(a, c)
 }
 
