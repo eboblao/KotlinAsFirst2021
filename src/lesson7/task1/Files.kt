@@ -3,6 +3,8 @@
 package lesson7.task1
 
 import java.io.File
+import java.util.*
+import kotlin.math.max
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -63,7 +65,16 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    TODO()
+    File(outputName).bufferedWriter().use {
+        for (line in File(inputName).readLines()) {
+            if (line.isNotEmpty()){
+                if (line[0] != '_'){
+                    it.write(line + "\n")
+                }
+            } else it.newLine()
+        }
+
+    }
 }
 
 /**
@@ -75,7 +86,27 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+   val map = mutableMapOf<String, Int>()
+    val setOfSubsstrings = substrings.toSet()
+    for (str in setOfSubsstrings) map[str] = 0
+    for (line in File(inputName).readLines()) {
+        val newline = line.toLowerCase()
+        for (str in setOfSubsstrings){
+            var searchIndex = 0
+            val newString = str.toLowerCase()
+            var index = newline.indexOf(newString, searchIndex)
+            while (index != -1){
+                map[str] = map[str]!! + 1
+                searchIndex = index + 1
+                index = newline.indexOf(newString, searchIndex)
+            }
+        }
+    }
+    return map
+}
+//НЕ знаю что с этой задачей не так она не проходит в тестах в IDE
+// Вроде решил проблему, но не знаю пройдёт ли тест в котоеде
 
 
 /**
@@ -92,7 +123,20 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val letters = mapOf("ы" to "и", "я" to "а", "ю" to "у", "Ы" to "И", "Я" to "А", "Ю" to "У")
+    val outputString = StringBuilder()
+    File(inputName).readLines().forEach { line ->
+        val bebra = Regex("""[жчшщЖЧШЩ][ыяюЫЯЮ]""").findAll(line)
+        var string = line
+        for (oil in bebra){
+            val k = oil.range.last
+            val char = string[k].toString()
+            string = string.replaceRange(k..k, letters[char]!!)
+        }
+       outputString.appendLine(string)
+    }
+    File(outputName).writeText(outputString.toString())
+
 }
 
 /**
@@ -113,7 +157,21 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val text = mutableListOf<String>()
+    var maxJoJo = 0
+    for (line in File(inputName).readLines()) {
+        val newline = line.trim()
+        text.add(newline)
+        maxJoJo = max(maxJoJo, newline.length)
+    }
+    File(outputName).bufferedWriter().use{
+        for (line in text){
+            val currentJoJo = line.length
+            val result = String.format("%${(maxJoJo + currentJoJo) / 2}s",line) + "\n"
+            it.write(result)
+            print(result)
+        }
+    }
 }
 
 /**

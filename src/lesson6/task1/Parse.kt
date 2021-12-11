@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import java.lang.NumberFormatException
+import kotlin.math.max
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -102,7 +105,10 @@ fun dateDigitToStr(digital: String): String = TODO()
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String =
+    if (!Regex("""^(\+\d+)?(\(\d+\))?\d+$""").matches(Regex("""[\s-]""").replace(phone, "")))
+        "" else Regex("""[\s-()]""").replace(phone, "") v
+
 
 /**
  * Средняя (5 баллов)
@@ -114,7 +120,20 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val section = jumps.split(" ")
+    var maxScore = -1
+    for (i in section){
+        if ((i != "%") && (i != "-"))
+            try {
+                val o = i.toIntOrNull() ?: return -1
+                maxScore = kotlin.math.max(maxScore, o)
+            } catch (h: NumberFormatException) {
+                return -1
+            }
+    }
+    return maxScore
+}
 
 /**
  * Сложная (6 баллов)
@@ -149,7 +168,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val list = str.split(' ')
+    var ind = 0
+    for ((plumbus, nuha) in list.zipWithNext()) {
+        if (plumbus.toLowerCase() == nuha.toLowerCase()) return ind
+        ind += plumbus.length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная (6 баллов)
