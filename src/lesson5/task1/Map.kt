@@ -168,11 +168,11 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val map = mutableMapOf<String, List<Double>>()
-    for ((initial,price) in stockPrices)
+    for ((initial, price) in stockPrices)
         if (initial in map) map[initial] = map[initial]!! + price
         else map[initial] = listOf(price)
     val res = mutableMapOf<String, Double>()
-    for ((key,value) in map) res[key] = value.sum() / value.size.toDouble()
+    for ((key, value) in map) res[key] = value.sum() / value.size.toDouble()
     return res
 }
 
@@ -218,7 +218,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
-    for (k in list){
+    for (k in list) {
         if (k in map) map[k] = map[k]!! + 1
         else map[k] = 1
     }
@@ -298,7 +298,7 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
         if (list[k] in mapPop) return Pair(mapPop.getOrDefault(list[k], -1), k)
         mapPop[number - list[k]] = k
     }
-    return Pair(-1,-1)
+    return Pair(-1, -1)
 }
 
 /**
